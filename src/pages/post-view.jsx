@@ -27,15 +27,22 @@ export default function PostViewPage() {
   return (
     <div className="container mx-auto p-4 flex-1 flex flex-col">
       <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
-      <p>{post.content}</p>
+      <div className="grid grid-cols-2 gap-2">
+        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2uwhs8ea" alt="placeholder" />
+        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2uwhs8ea" alt="placeholder" />
+        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2uwhs8ea" alt="placeholder" />
+        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2uwhs8ea" alt="add more" />
+      </div>
+      <p>description: {post.content}</p>
 
-      <div className="flex-1"></div>
-      <div>comments</div>
-      <CommentList postId={post._id} />
-      <Authenticated>
-        <div className="h-4"></div>
-        <CommentForm postId={post._id} />
-      </Authenticated>
+      <div className="">
+        <div>comments</div>
+        <CommentList postId={post._id} />
+        <Authenticated>
+          <div className="h-4"></div>
+          <CommentForm postId={post._id} />
+        </Authenticated>
+      </div>
       <Unauthenticated>
         <div>you must be logged in...</div>
       </Unauthenticated>
@@ -73,55 +80,56 @@ function CommentList({ postId }) {
 function CommentForm({ postId }) {
   const createComment = useMutation(api.comments.createComment);
   const [rating, setRating] = useState(3);
+
   return (
-    <div className="flex">
+    <div className="w-full max-w-xl bg-base-200 p-4 rounded-xl">
       <form
-        className="input justify-end w-120"
+        className="flex flex-col gap-3"
         onSubmit={async (e) => {
           e.preventDefault();
-          const content = e.currentTarget.content.value;
-          e.target.reset();
+          const form = e.currentTarget;
+          const content = (form.elements.namedItem("content")).value;
 
-          await createComment({
-            content,
-            postId,
-            rating: rating,
-          });
+          if (!content.trim()) return;
+          try {
+            await createComment({
+              content,
+              postId,
+              rating: rating,
+            });
+            form.reset();
+            setRating(3);
+          } catch (err) {
+            console.error("Failed to post comment:", err);
+          }
         }}
       >
-        <div className="rating">
-          <div
-            onClick={() => setRating(1)}
-            className="mask mask-star cursor-pointer"
-            aria-label="1 star"
-            aria-current={1 === rating}
-          ></div>
-          <div
-            onClick={() => setRating(2)}
-            className="mask mask-star cursor-pointer"
-            aria-label="2 star"
-            aria-current={2 === rating}
-          ></div>
-          <div
-            className="mask mask-star cursor-pointer"
-            aria-label="3 star"
-            aria-current={3 === rating}
-          ></div>
-          <div
-            onClick={() => setRating(4)}
-            className="mask mask-star cursor-pointer"
-            aria-label="4 star"
-            aria-current={4 === rating}
-          ></div>
-          <div
-            onClick={() => setRating(5)}
-            className="mask mask-star cursor-pointer"
-            aria-label="5 star"
-            aria-current={5 === rating}
-          ></div>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold">Your Rating:</span>
+          <div className="rating">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <input
+                key={star}
+                type="radio"
+                name="rating-dropdown"
+                className="mask mask-star bg-orange-400"
+                checked={rating === star}
+                onChange={() => setRating(star)}
+              />
+            ))}
+          </div>
         </div>
-        <input name="content" placeholder="Type here" />
-        <button>POST</button>
+
+        <div className="flex gap-2">
+          <input
+            name="content"
+            type="text"
+            placeholder="Write a comment..."
+            className="input input-bordered grow"
+            required
+          />
+          <button type="submit" className="btn btn-primary">POST</button>
+        </div>
       </form>
     </div>
   );

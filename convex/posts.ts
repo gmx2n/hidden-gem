@@ -2,14 +2,20 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { paginationOptsValidator } from "convex/server";
+import schema from "./schema";
 
 export const createPost = mutation({
   args: {
-    title: v.string(),
-    content: v.string(),
-    address: v.string()
+    postData: v.object({
+      title: v.string(),
+      content: v.string(),
+      address: v.string(),
+      scenery: v.number(),
+      crowds: v.number(),
+      bestTime: v.number(),
+    }),
   },
-  handler: async (ctx, { title, content, address }) => {
+  handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
       throw new Error("Not authenticated");
@@ -21,29 +27,26 @@ export const createPost = mutation({
     }
 
     const post = {
-      title,
-      content,
+      ...args.postData,
       authorId: userId,
       authorName: user.email!.split("@")[0], 
-      point: {longitude: 0.0, latitude: 0.0}, 
-      address,  // Use the part of the email before the "@" as the author name
+      point: { longitude: 0.0, latitude: 0.0 }, 
     };
-    await ctx.db.insert("post", post);
+
+    const postId = await ctx.db.insert("post", post);
+
+    return postId;
   },
 });
 
-
-
 export const getPosts = query({
   args: {
-    // paginationOptsValidator needs to be imported from convex/server
     paginationOpts: paginationOptsValidator,
   },
   handler: async (ctx, { paginationOpts }) => {
     return await ctx.db.query("post").order("desc").paginate(paginationOpts);
   },
 });
-
 
 export const deletePost = mutation({
   args: {

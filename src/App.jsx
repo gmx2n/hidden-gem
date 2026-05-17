@@ -10,12 +10,12 @@ import PostViewPage from "./pages/post-view";
 export default function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route path="/" element={<Layout />}>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<HomePage />} />
+        <Route index element={<HomePage />} />
         <Route path="/create-post" element={<PostForm />} />
         <Route path="/posts/:postId" element={<PostViewPage />} />
-        
+
       </Route>
     </Routes>
   );

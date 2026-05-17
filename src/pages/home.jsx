@@ -12,22 +12,16 @@ export default function HomePage() {
   return (
     <div className="container mx-auto p-4">
       <section
-        class="relative"
+        className="relative"
         style={{ backgroundImage: "url('https://example.com')" }}
       >
-        <div class="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-24 lg:py-32">
-          <div class="grid grid-cols-1 items-center gap-8 sm:gap-20 lg:grid-cols-2">
-            <div class="max-w-180">
-              <h1 class="mb-3 pb-4 text-4xl font-bold text-primary md:text-6xl">
+        <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-24 lg:py-32">
+          <div className="grid grid-cols-1 items-center gap-8 sm:gap-20 lg:grid-cols-2">
+            <div className="max-w-180">
+              <h1 className="mb-3 pb-4 text-4xl font-bold text-primary md:text-6xl">
                 Where to?
               </h1>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="input input-bordered w-36 md:w-auto"
-                />
-              </div>
+
             </div>
           </div>
         </div>
@@ -56,6 +50,7 @@ function Post({ post }) {
     <div className="mb-4 m-1 p-4 border rounded">
       <h2 className="text-xl font-bold mb-2">{post.title}</h2>
       <p className="text-gray-700 mb-2">{post.content}</p>
+      <p className="text-gray-700 mb-2">{post.difficuty}</p>
       <div className="flex items-end">
         <span className="text-sm text-gray-500">By {post.authorName}</span>
         <div className="grow"></div>
