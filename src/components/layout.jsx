@@ -10,7 +10,7 @@ export default function Layout() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col" data-theme="nord">
+    <div className="min-h-screen flex flex-col" data-theme="emerald">
 
       <div className="flex-1 overflow-y-auto pb-30">
         <Outlet />
@@ -21,14 +21,14 @@ export default function Layout() {
         <Authenticated className="flex gap-4 items-center">
           <NavLink
             to="/map"
-            className={({ isActive }) => (isActive ? "text-primary text-bold text-m" : "")}
+            className={({ isActive }) => (isActive ? "text-secondary font-bold text-m" : "")}
           >
-            Hidden Gem
+            Map
           </NavLink>
 
           <NavLink
             to="/"
-            className={({ isActive }) => (isActive ? "text-primary" : "")}
+            className={({ isActive }) => (isActive ? "text-secondary font-bold text-m" : "")}
           >
             Explore
           </NavLink>
@@ -36,32 +36,20 @@ export default function Layout() {
         </Authenticated>
 
 
-        <div className="flex items-center">
+        <div className="flex justify-between items-center">
           <Authenticated>
-            <div className="flex items-center gap-2">
+            <div className="flex gap-2">
               <button
-                className="btn btn-primary btn-sm mx-2"
+                className="btn btn-primary btn-sm ml-2"
                 onClick={() => navigate("/create-post")}
               >
                 Post
               </button>
-              <ul className="relative">
-                <details className="dropdown dropdown-top dropdown-end">
-                  <summary className="text-sm font-bold text-primary list-none cursor-pointer">
-                    {user?.email.split("@")[0]}
-                  </summary>
-                  <ul className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-24 bottom-full mb-2">
-                    <li>
-                      <button
-                        className="btn btn-neutral btn-sm"
-                        onClick={() => signOut()}
-                      >
-                        Logout
-                      </button>
-                    </li>
-                  </ul>
-                </details>
-              </ul>
+              <NavLink className="w-fit whitespace-nowrap"
+                to="/profile"
+              >
+                🔍{user?.email.split("@")[0]}
+              </NavLink>
             </div>
           </Authenticated>
           <Unauthenticated>

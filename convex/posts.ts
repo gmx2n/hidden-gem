@@ -13,6 +13,7 @@ export const createPost = mutation({
       scenery: v.number(),
       crowds: v.number(),
       bestTime: v.number(),
+      tagIds: v.array(v.string())
     }),
   },
   handler: async (ctx, args) => {
@@ -29,11 +30,20 @@ export const createPost = mutation({
     const post = {
       ...args.postData,
       authorId: userId,
-      authorName: user.email!.split("@")[0], 
-      point: { longitude: 0.0, latitude: 0.0 }, 
+      authorName: user.email!.split("@")[0],
+      point: { longitude: 0.0, latitude: 0.0 },
     };
 
     const postId = await ctx.db.insert("post", post);
+
+    // TODO: create geoIndex
+
+    // TODO: connect to tags
+    for (let tagId of args.postData.tagIds) {
+      await ctx.db.insert("postTagMap", {
+        postId, tagId
+      })
+    }
 
     return postId;
   },

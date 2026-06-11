@@ -25,4 +25,13 @@ export default defineSchema({
     authorName: v.string(),
     rating: v.optional(v.number())
   }).index("postId", ["postId"]),
+  tag: defineTable({
+    name: v.string()
+  }),
+  postTagMap: defineTable({
+    postId: v.id("post"),
+    tagId: v.string()
+  })
+    .index("with_postId", ["postId"])
+    .index("with_tagId", ["tagId"])
 });

@@ -28,15 +28,20 @@ export default function PostViewPage() {
     <div className="container mx-auto p-4 flex-1 flex flex-col">
       <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
       <div className="grid grid-cols-2 gap-2">
-        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2uwhs8ea" alt="placeholder" />
-        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2uwhs8ea" alt="placeholder" />
-        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2uwhs8ea" alt="placeholder" />
-        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2uwhs8ea" alt="add more" />
+        <img className="w-full aspect-square object-cover rounded-lg" src="https://picsum.photos/200/300" alt="placeholder" />
+        <img className="w-full aspect-square object-cover rounded-lg" src="https://picsum.photos/200/300" alt="placeholder" />
+        <img className="w-full aspect-square object-cover rounded-lg" src="https://picsum.photos/200/300" alt="placeholder" />
+        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2vhwj7ux" alt="add more" />
       </div>
-      <p>description: {post.content}</p>
+      
+      <p className="mt-4">scenery: placeholder</p>
+      <p>crowds: placeholder</p>
+      <p>best time of day: placeholder</p>
 
-      <div className="">
-        <div>comments</div>
+      <p className="mt-4">description: {post.content}</p>
+
+      <div className="mt-10">
+        <div>reviews:</div>
         <CommentList postId={post._id} />
         <Authenticated>
           <div className="h-4"></div>
@@ -59,9 +64,10 @@ function CommentList({ postId }) {
         <div key={c._id} className="space-x-3 my-3">
           <div className="flex">
             <div className="mr-3">{c.authorName}</div>
-            <div className="w-24">{"⭐".repeat(c.rating)}</div>
+            <div className="flex-1">{"⭐".repeat(c.rating)}</div>
+            <div className="flex-2">{c.content}</div>
           </div>
-          <div className="w-200">{c.content}</div>
+          
           <div className="flex">
             <div className="grow"></div>
             <button

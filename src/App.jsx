@@ -4,6 +4,8 @@ import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
 import PostForm from "./pages/post-form";
 import PostViewPage from "./pages/post-view";
+import MapPage from "./pages/map";
+import ProfilePage from "./pages/profile";
 
 
 
@@ -15,7 +17,8 @@ export default function App() {
         <Route index element={<HomePage />} />
         <Route path="/create-post" element={<PostForm />} />
         <Route path="/posts/:postId" element={<PostViewPage />} />
-
+        <Route path="/map" element={<MapPage />}/>
+        <Route path="/profile" element={<ProfilePage />}/>
       </Route>
     </Routes>
   );
