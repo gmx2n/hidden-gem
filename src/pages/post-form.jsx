@@ -12,6 +12,7 @@ export default function PostForm() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [scenery, setScenery] = useState("3");
   const [crowds, setCrowds] = useState("1");
+  const [overall, setOverall] = useState("4");
   const [bestTime, setBestTime] = useState("2");
   const [photoFiles, setPhotoFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -33,7 +34,6 @@ export default function PostForm() {
   };
 
   const removePhoto = (indexToRemove) => {
-    // Revoke the object URL to avoid memory leaks
     URL.revokeObjectURL(previews[indexToRemove]);
 
     setPhotoFiles((prev) => prev.filter((_, index) => index !== indexToRemove));
@@ -85,6 +85,7 @@ export default function PostForm() {
                   scenery: Number(scenery),
                   crowds: Number(crowds),
                   bestTime: Number(bestTime),
+                  overall: Number(overall),
                   tagIds: selectedTags,
                   address: formData.get("address") || "Unknown Location",
                 },
@@ -156,7 +157,24 @@ export default function PostForm() {
             />
           </fieldset>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-1">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-1">
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Overall Rating</legend>
+              <div className="rating rating-lg rating-half">
+                <input type="radio" name="rating-11" className="rating-hidden" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-1" value="0.5" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-2 " value="1.0" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-1" value="1.5" defaultChecked />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-2" value="2.0" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-1" value="2.5" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-2" value="3.0" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-1 " value="3.5" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-2" value="4.0" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-1 " value="4.5" />
+                <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-2" value="5.0" />
+              </div>
+            </fieldset>
+
             <fieldset className="fieldset">
               <legend className="fieldset-legend">Scenery Rating</legend>
               <select
