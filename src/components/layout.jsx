@@ -10,7 +10,7 @@ export default function Layout() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col" data-theme="emerald">
+    <div className="min-h-screen flex flex-col" data-theme="corporate">
 
       <div className="flex-1 overflow-y-auto pb-30">
         <Outlet />

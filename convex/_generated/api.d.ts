@@ -12,7 +12,6 @@ import type * as auth from "../auth.js";
 import type * as comments from "../comments.js";
 import type * as http from "../http.js";
 import type * as index from "../index.js";
-import type * as places from "../places.js";
 import type * as posts from "../posts.js";
 import type * as users from "../users.js";
 
@@ -27,7 +26,6 @@ declare const fullApi: ApiFromModules<{
   comments: typeof comments;
   http: typeof http;
   index: typeof index;
-  places: typeof places;
   posts: typeof posts;
   users: typeof users;
 }>;

@@ -11,6 +11,7 @@ import { useState } from "react";
 export default function PostViewPage() {
   const { postId } = useParams();
   const post = useQuery(api.posts.getPost, { postId });
+  const images = useQuery(api.posts.getPostImages, { postId });
   const comment = useQuery(api.comments.getCommentsForPost, {
     postId,
   });
@@ -27,13 +28,29 @@ export default function PostViewPage() {
   return (
     <div className="container mx-auto p-4 flex-1 flex flex-col">
       <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
-      <div className="grid grid-cols-2 gap-2">
-        <img className="w-full aspect-square object-cover rounded-lg" src="https://picsum.photos/200/300" alt="placeholder" />
-        <img className="w-full aspect-square object-cover rounded-lg" src="https://picsum.photos/200/300" alt="placeholder" />
-        <img className="w-full aspect-square object-cover rounded-lg" src="https://picsum.photos/200/300" alt="placeholder" />
-        <img className="w-full aspect-square object-cover rounded-lg" src="https://tinyurl.com/2vhwj7ux" alt="add more" />
-      </div>
-      
+
+      {images === undefined ? (
+        <div className="grid grid-cols-2 gap-2">
+          <div className="w-full aspect-square rounded-lg bg-base-200 animate-pulse" />
+          <div className="w-full aspect-square rounded-lg bg-base-200 animate-pulse" />
+        </div>
+      ) : images.length === 0 ? (
+        <div className="w-full aspect-video rounded-lg bg-base-200 flex items-center justify-center text-base-content/30 text-4xl">
+          📷
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-2">
+          {images.map((image) => (
+            <img
+              key={image._id}
+              className="w-full aspect-square object-cover rounded-lg"
+              src={image.url}
+              alt={post.title}
+            />
+          ))}
+        </div>
+      )}
+
       <p className="mt-4">scenery: placeholder</p>
       <p>crowds: placeholder</p>
       <p>best time of day: placeholder</p>
@@ -67,7 +84,7 @@ function CommentList({ postId }) {
             <div className="flex-1">{"⭐".repeat(c.rating)}</div>
             <div className="flex-2">{c.content}</div>
           </div>
-          
+
           <div className="flex">
             <div className="grow"></div>
             <button
