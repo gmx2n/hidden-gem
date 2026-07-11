@@ -14,7 +14,8 @@ export default function HomePage() {
       {/* Hero */}
       <section className="w-full px-6 py-16 md:py-24">
         <h1 className="text-5xl md:text-7xl font-bold text-primary">Where to?</h1>
-        <p className="mt-3 text-base-content/50 text-lg">Explore trips from the community</p>
+        <p className="mt-3 text-base-content/50 text-lg">Explore hidden spots from the community</p>
+        <button className="btn">See All Posts</button>
       </section>
 
       <section className="pb-16">
