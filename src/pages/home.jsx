@@ -88,27 +88,19 @@ function Post({ post }) {
 
   return (
     <div className="flex-shrink-0 w-64 bg-base-200 rounded-xl overflow-hidden flex flex-col">
-      {/* Color band based on difficulty */}
-      <div className={`h-1.5 w-full ${post.difficulty === "hard" ? "bg-error" :
-        post.difficulty === "medium" ? "bg-warning" :
-          "bg-primary"
-        }`} />
 
       {latestPhoto?.url && (
         <img
           src={latestPhoto.url}
           alt={post.title}
-          className="w-full h-32 object-cover"
+          className="object-cover"
         />
       )}
 
       <div className="p-4 flex flex-col gap-2 flex-1">
         <h2 className="font-semibold text-base leading-snug line-clamp-2">{post.title}</h2>
         <p className="text-sm text-base-content/60 line-clamp-3 flex-1">{post.content}</p>
-
-        {post.difficulty && (
-          <span className="badge badge-sm badge-ghost capitalize">{post.difficulty}</span>
-        )}
+        <div>tags..</div>
 
         <div className="flex items-center justify-between mt-1">
           <span className="text-xs text-base-content/40">by {post.authorName}</span>

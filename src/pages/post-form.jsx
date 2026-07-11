@@ -158,7 +158,7 @@ export default function PostForm() {
           </fieldset>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-1">
-            <fieldset className="fieldset">
+            {/* <fieldset className="fieldset">
               <legend className="fieldset-legend">Overall Rating</legend>
               <div className="rating rating-lg rating-half">
                 <input type="radio" name="rating-11" className="rating-hidden" />
@@ -173,7 +173,7 @@ export default function PostForm() {
                 <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-1 " value="4.5" />
                 <input type="radio" name="rating-11" className="mask mask-star-2 mask-half-2" value="5.0" />
               </div>
-            </fieldset>
+            </fieldset> */}
 
             <fieldset className="fieldset">
               <legend className="fieldset-legend">Scenery Rating</legend>
