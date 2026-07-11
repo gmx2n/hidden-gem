@@ -26,8 +26,10 @@ export const createPost = mutation({
       throw new Error("User not found");
     }
 
+    const { tagIds, ...postFields } = args.postData;
+
     const post = {
-      ...args.postData,
+      ...postFields,
       authorId: userId,
       authorName: user.email!.split("@")[0],
       point: { longitude: 0.0, latitude: 0.0 },

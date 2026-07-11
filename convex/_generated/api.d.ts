@@ -14,6 +14,7 @@ import type * as http from "../http.js";
 import type * as index from "../index.js";
 import type * as photos from "../photos.js";
 import type * as posts from "../posts.js";
+import type * as ratings from "../ratings.js";
 import type * as users from "../users.js";
 
 import type {
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   index: typeof index;
   photos: typeof photos;
   posts: typeof posts;
+  ratings: typeof ratings;
   users: typeof users;
 }>;
 

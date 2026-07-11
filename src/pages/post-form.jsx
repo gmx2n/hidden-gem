@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 
 export default function PostForm() {
   const createPost = useMutation(api.posts.createPost);
-  const generateUploadUrl = useMutation(api.posts.generateUploadUrl);
+  const generateUploadUrl = useMutation(api.photos.generateUploadUrl);
+  const addPhoto = useMutation(api.photos.addPhoto);
   const navigate = useNavigate();
 
   const [selectedTags, setSelectedTags] = useState([]);
@@ -81,15 +82,17 @@ export default function PostForm() {
                 postData: {
                   title: formData.get("title"),
                   content: formData.get("description"),
-                  sceneryRating: Number(scenery),
-                  crowdsRating: Number(crowds),
-                  bestTimeRating: Number(bestTime),
+                  scenery: Number(scenery),
+                  crowds: Number(crowds),
+                  bestTime: Number(bestTime),
                   tagIds: selectedTags,
                   address: formData.get("address") || "Unknown Location",
                 },
-                tagIds: selectedTags,
-                imageStorageIds,
               });
+
+              for (const storageId of imageStorageIds) {
+                await addPhoto({ postId, storageId });
+              }
 
               navigate(`/posts/${postId}`);
             } catch (error) {
