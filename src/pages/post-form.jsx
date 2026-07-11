@@ -84,6 +84,7 @@ export default function PostForm() {
                   sceneryRating: Number(scenery),
                   crowdsRating: Number(crowds),
                   bestTimeRating: Number(bestTime),
+                  tagIds: selectedTags,
                   address: formData.get("address") || "Unknown Location",
                 },
                 tagIds: selectedTags,

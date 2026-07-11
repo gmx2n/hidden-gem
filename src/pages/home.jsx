@@ -6,7 +6,7 @@ import { useRef } from "react";
 export default function HomePage() {
   const latestPosts = useQuery(api.posts.getLatestPosts);
   const trulyHiddenPosts = useQuery(api.posts.getTrulyHiddenPosts);
-  const sunsetSpotPosts = useQuery(api.posts.getSunsetSpotPosts);
+  const sunsetPosts = useQuery(api.posts.getSunsetPosts);
   const popularPosts = useQuery(api.posts.getPopularPosts);
 
   return (
@@ -27,19 +27,19 @@ export default function HomePage() {
         <Carousel
           title="Truly Hidden"
           posts={trulyHiddenPosts}
-          emptyMessage="No empty, crowd-free spots yet."
+          emptyMessage="No truly empty spots found yet."
         />
 
         <Carousel
           title="Sunset Spots"
-          posts={sunsetSpotPosts}
-          emptyMessage="No sunset spots posted yet."
+          posts={sunsetPosts}
+          emptyMessage="No sunset spots found yet."
         />
 
         <Carousel
           title="Popular"
           posts={popularPosts}
-          emptyMessage="No posts with great reviews yet."
+          emptyMessage="No popular spots yet — leave some great reviews!"
         />
       </section>
     </div>
@@ -54,7 +54,7 @@ function Carousel({ title, posts, emptyMessage }) {
   };
 
   return (
-    <div className="mb-10">
+    <div className="mb-8">
       <div className="flex items-center justify-between px-6 mb-3">
         <h2 className="text-lg font-semibold text-base-content">{title}</h2>
         <div className="flex gap-2">
@@ -71,9 +71,9 @@ function Carousel({ title, posts, emptyMessage }) {
           className="flex gap-4 overflow-x-auto px-6 pb-2"
           style={{ scrollbarWidth: "none" }}
         >
-          {posts === undefined
-            ? Array.from({ length: 4 }).map((_, i) => <PostCardSkeleton key={i} />)
-            : posts.map((post) => <Post key={post._id} post={post} />)}
+          {posts?.map((post) => (
+            <Post key={post._id} post={post} />
+          ))}
         </div>
       )}
     </div>
@@ -83,21 +83,23 @@ function Carousel({ title, posts, emptyMessage }) {
 function Post({ post }) {
   const user = useQuery(api.users.getUser);
   const deletePost = useMutation(api.posts.deletePost);
-  const imageUrl = useQuery(api.posts.getLatestPostImage, { postId: post._id });
+  const latestPhoto = useQuery(api.photos.getLatestPhotoForPost, { postId: post._id });
 
   return (
     <div className="flex-shrink-0 w-64 bg-base-200 rounded-xl overflow-hidden flex flex-col">
-      <div className="relative w-full h-32 bg-base-300 flex items-center justify-center">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={post.title}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <span className="text-base-content/30 text-3xl">📷</span>
-        )}
-      </div>
+      {/* Color band based on difficulty */}
+      <div className={`h-1.5 w-full ${post.difficulty === "hard" ? "bg-error" :
+        post.difficulty === "medium" ? "bg-warning" :
+          "bg-primary"
+        }`} />
+
+      {latestPhoto?.url && (
+        <img
+          src={latestPhoto.url}
+          alt={post.title}
+          className="w-full h-32 object-cover"
+        />
+      )}
 
       <div className="p-4 flex flex-col gap-2 flex-1">
         <h2 className="font-semibold text-base leading-snug line-clamp-2">{post.title}</h2>
@@ -123,19 +125,6 @@ function Post({ post }) {
             </Link>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function PostCardSkeleton() {
-  return (
-    <div className="flex-shrink-0 w-64 bg-base-200 rounded-xl overflow-hidden flex flex-col animate-pulse">
-      <div className="w-full h-32 bg-base-300" />
-      <div className="p-4 flex flex-col gap-2 flex-1">
-        <div className="h-4 bg-base-300 rounded w-3/4" />
-        <div className="h-3 bg-base-300 rounded w-full" />
-        <div className="h-3 bg-base-300 rounded w-2/3" />
       </div>
     </div>
   );
