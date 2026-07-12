@@ -240,7 +240,7 @@ function InfoBox({ tags, sceneryAvg, crowdsAvg, bestTimeAvg }) {
       {tags && tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-1">
           {tags.map((tag) => (
-            <span key={tag} className="badge badge-primary badge-outline capitalize">
+            <span key={tag} className="badge badge-accent badge-soft capitalize">
               {tag}
             </span>
           ))}
